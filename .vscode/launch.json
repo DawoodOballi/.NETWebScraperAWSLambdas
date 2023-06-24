@@ -1,0 +1,53 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Web Scraper",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${userHome}/.dotnet/tools/dotnet-lambda-test-tool-6.0.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/WebScraper/src/WebScraper",
+            // "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Web Scraper Tests",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "test and generate coverage report for webscraper",
+            "program": "${workspaceFolder}/WebScraper/test/WebScraper.Tests/WebScraper.Tests.csproj",
+            "args": [],
+            "cwd": "${workspaceFolder}/WebScraper/test/WebScraper.Tests",
+            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Web Scraper File Download",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build2",
+            "program": "${userHome}/.dotnet/tools/dotnet-lambda-test-tool-6.0.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/WebScraperFileDownload/src/WebScraperFileDownload",
+            // "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Web Scraper File Download Tests",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "test and generate coverage report for webscraperfiledownload",
+            "program": "${workspaceFolder}/WebScraperFileDownload/test/WebScraperFileDownload.Tests/WebScraperFileDownload.Tests.csproj",
+            "args": [],
+            "cwd": "${workspaceFolder}/WebScraperFileDownload/test/WebScraperFileDownload.Tests",
+            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+    ]
+}

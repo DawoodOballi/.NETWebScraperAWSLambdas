@@ -1,0 +1,37 @@
+{
+  "name": "serverless",
+  "version": "5.1.0",
+  "description": "TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project.",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions",
+    "test": "echo \"Error: no test specified\"",
+    "release": "standard-version",
+    "sem-release": "semantic-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://DawoodOballi@dev.azure.com/DawoodOballi/Serverless/_git/Serverless"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
+    "@semantic-release/changelog": "^6.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "husky": "^8.0.3",
+    "semantic-release": "^20.0.4",
+    "semantic-release-ado": "^1.4.0",
+    "serverless-cloudformation-sub-variables": "^0.2.1",
+    "serverless-dotnet": "^1.6.1",
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "standard-version": "^9.5.0"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.7",
+    "axios": "^1.2.3",
+    "dotnet": "^1.1.4",
+    "npm-force-resolutions": "0.0.10"
+  }
+}

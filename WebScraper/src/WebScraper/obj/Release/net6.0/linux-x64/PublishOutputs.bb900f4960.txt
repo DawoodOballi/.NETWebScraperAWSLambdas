@@ -1,0 +1,15 @@
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\WebScraper.deps.json
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\WebScraper.runtimeconfig.json
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\WebScraper.pdb
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\Amazon.Lambda.Core.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\Amazon.Lambda.Serialization.SystemTextJson.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\AWSSDK.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\AWSSDK.Core.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\Microsoft.Win32.SystemEvents.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\Newtonsoft.Json.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\System.Configuration.ConfigurationManager.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\System.Drawing.Common.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\System.Security.Cryptography.ProtectedData.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\System.Security.Permissions.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\System.Windows.Extensions.dll
+D:\Development\Lambda-AWS\Serverless\WebScraper\src\WebScraper\bin\Release\net6.0\publish\WebScraper.dll

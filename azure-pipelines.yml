@@ -1,0 +1,98 @@
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: UpdateCommitMessageAlias
+      source: "update-commit-message-post-merge"
+      branch: main
+      trigger: true
+
+parameters:
+  - name: lambdas
+    type: string
+    default: all
+    values:
+      - all
+      - WebScraper
+      - WebScraperFileDownload
+
+variables:
+  - name: lambdas
+    ${{ if eq(parameters.lambdas, 'all') }}:
+      value: WebScraper, WebScraperFileDownload
+    ${{ else }}:
+      value: parameters.lambdas
+
+pr: none
+pool: default
+steps:
+  - checkout: self
+    persistCredentials: true   
+
+  - task: npmAuthenticate@0
+    inputs:
+      workingFile: .npmrc
+    displayName: 'Authenticate with NPM'
+
+  - script: |
+      npm ci
+    displayName: 'Install NPM packages'
+    
+  - script: |
+      npm audit --registry=https://registry.npmjs.org/
+    displayName: 'Audit scan NPM packages for vulnerabilities'
+
+  - script: |
+      version=`cat package.json | jq -r '.version'`
+      echo "##vso[task.setvariable variable=currentVersion;]$version"
+      echo $(currentVersion)
+    displayName: 'Get current version of function'
+
+  - script: |
+      git config --global user.name '<user.name>'
+      git config --global user.email '<user.email>'
+      git config --global --add http.$(Build.Repository.Uri).extraHeader "AUTHORIZATION: bearer $(system.accesstoken)"
+    displayName: Setting git credentials
+
+  - script: | 
+      npm run sem-release
+    displayName: 'Run release'
+    env:
+      GIT_AUTHOR_NAME: $(Build.RequestedFor)
+      GIT_AUTHOR_EMAIL: $(Build.RequestedForEmail)
+      GIT_COMMITTER_NAME: $(Build.RequestedFor)
+      GIT_COMMITTER_EMAIL: $(Build.RequestedForEmail)
+      BUILD_NUMBER: $(Build.Repository.Name)_$(Date:yyyyMMdd)$(Rev:r)
+    continueOnError: false
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/main'))
+  
+  - script: |
+      echo "Checking if a new version is being released..."
+      potentialVersion=`cat package.json | jq -r '.version'`
+      if [ "$(currentVersion)" == "$potentialVersion" ]; then
+        toRelease="no"
+        echo "No relevant changes for release notes"
+      else
+        toRelease="yes"
+        echo "Release notes will be updated"
+      fi
+      cat <<EOF >> $(System.DefaultWorkingDirectory)/release.json
+      {
+        "toRelease": "$toRelease",
+        "version": "$potentialVersion"
+      }
+      EOF
+    displayName: "Check to update release notes"
+  
+  - task: PublishPipelineArtifact@1
+    inputs:
+      TargetPath: $(System.DefaultWorkingDirectory)/release.json
+      ArtifactName: release
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  
+  - script: |
+      git config --global --unset-all user.name '<user.name>'
+      git config --global --unset-all user.email '<user.email>'
+      git config --global --unset-all http.$(Build.Repository.Uri).extraHeader
+    displayName: Unsetting git credentials
+    condition: always()

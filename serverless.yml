@@ -1,0 +1,86 @@
+service: WebScraperLambdas
+
+plugins:
+  - serverless-dotnet
+  - serverless-iam-roles-per-function
+  - serverless-cloudformation-sub-variables
+
+provider:
+  name: aws
+  runtime: dotnet6
+  region: eu-west-2
+  stage: ${opt:stage, 'dev'}
+  stackName: ${self:service}-stack-${self:provider.stage}
+  logRetentionInDays: 0
+  environment:
+    BUCKET_NAME: ${env:BUILD_BUCKET_NAME, self:custom.envVars.BUILD_BUCKET_NAME}
+
+package:
+  individually: true
+  exclude:
+    - .vs*
+    - .vscode*
+    - ./**.sln**
+    - ./bin**
+
+custom:
+  envVars: ${file(./deploy-config/${self:provider.stage}.yml)}
+    
+functions:
+  WebScraper:
+    handler: WebScraper::WebScraper.Function::FunctionHandler
+    package:
+      excludeDevDependencies: false
+      artifact: WebScraper/src/WebScraper/bin/Release/net6.0/WebScraper.zip
+    name: ${self:service}-web-scraper-${self:provider.stage}-lambda
+    description: A Lambda for getting HTML of websites and sending the html through email vis SES
+    memorySize: 512
+    timeout: 180
+    iamRoleStatementsName: ${self:service}-web-scraper-${self:provider.stage}-role
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - ses:GetIdentityVerificationAttributes
+          - ses:VerifyEmailAddress
+          - ses:VerifyEmailIdentity
+        Resource:
+          - "*"
+      - Effect: "Allow"
+        Action:
+          - ses:VerifyEmailAddress
+          - ses:VerifyEmailIdentity
+        Resource:
+          - "*"
+      - Effect: "Allow"
+        Action:
+          - ses:SendEmail
+        Resource:
+          - arn:aws:ses:${self:provider.region}:#{AWS::AccountId}:identity/* # Needed the cloudformation sub variables plugin to convert from 'arn:aws:ses:eu-west-2:#{AWS::AccountId}:identity/*' into => '{"Fn::Sub": "arn:aws:ses:eu-west-2:${AWS::AccountId}:identity/*"}'
+    events:
+      - eventBridge:
+          schedule: ${self:custom.envVars.WebScraper.schedule} 
+          input: ${file(./WebScraper/events/cjs-cdkeys/cjs-cdkeys.json)}
+
+  WebScraperFileDownload:
+    handler: WebScraperFileDownload::WebScraperFileDownload.Function::FunctionHandler
+    package:
+      excludeDevDependencies: false
+      artifact: WebScraperFileDownload/src/WebScraperFileDownload/bin/Release/net6.0/WebScraperFileDownload.zip
+    name: ${self:service}-web-scraper-file-download-${self:provider.stage}-lambda
+    description: A Lambda for downloading files from websites and saving the data into s3
+    memorySize: 512
+    timeout: 180
+    iamRoleStatementsName: ${self:service}-web-scraper-file-download-${self:provider.stage}-role
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - s3:GetObjectTagging
+          - s3:PutObject
+          - s3:PutObjectTagging
+        Resource:
+          - "arn:aws:s3:::${self:custom.envVars.BUILD_BUCKET_NAME}/*"
+    events:
+      - eventBridge:
+          schedule: ${self:custom.envVars.WebScraper.schedule} 
+          input: ${file(./WebScraperFileDownload/events/ons-daily-vaccinations/daily-vaccinations.json)}
+  

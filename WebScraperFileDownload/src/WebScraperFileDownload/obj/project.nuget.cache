@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "FForrJIX2pSyFeEHKE2jgSRsludQ+OMaJgsXp15vpuQ91RnkjhAtvoR/opBfDlDLTYOQbgbTGM+j7O8mu8NcuQ==",
+  "success": true,
+  "projectFilePath": "d:\\Development\\Lambda-AWS\\Serverless\\WebScraperFileDownload\\src\\WebScraperFileDownload\\WebScraperFileDownload.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\d4w00\\.nuget\\packages\\amazon.lambda.core\\2.1.0\\amazon.lambda.core.2.1.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\amazon.lambda.serialization.systemtextjson\\2.3.0\\amazon.lambda.serialization.systemtextjson.2.3.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\awssdk.core\\3.7.102\\awssdk.core.3.7.102.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\awssdk.s3\\3.7.101.32\\awssdk.s3.3.7.101.32.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\htmlagilitypack\\1.11.46\\htmlagilitypack.1.11.46.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\microsoft.extensions.http\\7.0.0\\microsoft.extensions.http.7.0.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\d4w00\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.10\\microsoft.netcore.app.crossgen2.win-x64.6.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}

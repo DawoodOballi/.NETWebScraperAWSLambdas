@@ -1,0 +1,9 @@
+{
+    "eventId": "HTML Web Scraper Email Sender",
+    "websiteurl": "https://www.cjs-cdkeys.com/clearance-sale",
+    "xpath": "//*[@id=\"Container\"]/section/div",
+    "from": "ceweg72879@covbase.com",
+    "to": [
+        "perefi3220@ceoshub.com"
+    ]
+}

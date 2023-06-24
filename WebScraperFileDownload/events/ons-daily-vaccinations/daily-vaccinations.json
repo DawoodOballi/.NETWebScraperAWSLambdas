@@ -1,0 +1,7 @@
+{
+    "eventId": "Daily Vaccinations Report",
+    "websiteurl": "https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/coronaviruscovid19latestinsights/deaths",
+    "xpath": "//a[@class='btn btn--primary print--hide']",
+    "fullxpath": "/html/body/div[1]/div[3]/div[2]/main/section[2]/article[3]/div[2]/div[1]/div[1]/a[1]",
+    "filePrefixPattern": "yyyy_MM_dd_HH:mm:ss:Z"
+}

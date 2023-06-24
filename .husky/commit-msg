@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx --no -- commitlint --edit "$1"
+
+echo "Running npm audit"
+npm audit --registry=https://registry.npmjs.org/
+ 
+npm run test

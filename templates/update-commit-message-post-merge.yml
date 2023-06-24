@@ -1,0 +1,105 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool: default
+
+variables:
+  - group: agent
+
+jobs:
+  - job: UpdateCommitMessage
+    displayName: Update commit message to commitlint convention
+    workspace:
+      clean: all
+    steps:
+      # Checkout with persist credentials
+      - script: >-
+          echo "clearing the working directory"
+          pwd
+          rm -rf $(Agent.WorkFolder)
+        displayName: "Clear directory: $(System.DefaultWorkingDirectory)" 
+
+      - checkout: none
+        persistCredentials: false
+        clean: true
+      
+      - script: |
+          git config --global user.name '<user.name>'
+          git config --global user.email '<user.email>'
+          git config --global --add http.$(Build.Repository.Uri).extraHeader "AUTHORIZATION: bearer $(system.accesstoken)"
+        displayName: Setting git credentials
+
+      - task: Bash@3
+        inputs:
+          targetType: inline
+          workingDirectory: $(System.DefaultWorkingDirectory)
+          script: |
+            ## get organization name
+            IFS='/' read -r -a array <<< "$(System.TeamFoundationCollectionUri)"
+
+            organization=`echo "${array[3]}"`
+            echo "The organization name is $organization"
+
+            echo "cloning $(Build.Repository.Name) repo into $(System.DefaultWorkingDirectory)"
+            git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" clone https://$organization@dev.azure.com/$organization/$(System.TeamProject)/_git/$(Build.Repository.Name)
+
+            cd $(Build.Repository.Name)
+
+            echo "the working directory is `pwd`"
+
+            echo "files in working directory"
+            ls -a
+
+
+            echo "checking out into main"
+            git checkout main 
+
+            git status
+
+            ## get latest commit hash
+            latest_commit=$(git log -1 --format="%H")
+
+            ## get first line of commit message (title)
+            header=`git log -1 --pretty=%B | head -n 1`
+
+            ## get rest of commit message (body)
+            body=$(git log -1 --pretty=%B | tail -n +2)
+
+            ## split message from first occurence of delimiter
+            IFS=':' read -r prefix titleHead <<< "$header"
+
+            ## First check in case the message has been updated via the ADO web or a previous run
+            if [[ "$header" == *"Merged PR"* ]]; then
+              ## remove space in front of desiredTitle
+              desiredTitle=`echo $titleHead | sed 's/ *$//g'`
+
+              ## combine body and new desiredTitle
+              new_message=`echo -e "$desiredTitle\n$body"`
+              git commit --amend -m "$new_message"
+
+              git log -5
+
+              git status
+              
+              git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" push --force-with-lease
+            else
+              echo "Gracefully exiting"
+              exit 0
+            fi
+
+        displayName: 'Update commit message'
+        retryCountOnTaskFailure: 1
+      
+      - script: >-
+          echo "clearing the working directory"
+          rm -rf $(Agent.WorkFolder)
+        displayName: "Clear directory: $(System.DefaultWorkingDirectory)" 
+
+      - script: |
+          git config --global --unset-all user.name '<user.name>'
+          git config --global --unset-all user.email '<user.email>'
+          git config --global --unset-all http.$(Build.Repository.Uri).extraHeader
+        displayName: Unsetting git credentials
+        condition: always()

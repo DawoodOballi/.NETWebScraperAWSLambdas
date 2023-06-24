@@ -1,0 +1,4 @@
+# Local .terraform directories
+**/.terraform/*
+
+## Add files and directories for git to ignore adding them into source code.
