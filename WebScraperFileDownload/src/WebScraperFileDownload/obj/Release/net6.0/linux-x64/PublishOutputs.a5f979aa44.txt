@@ -1,0 +1,10 @@
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\WebScraperFileDownload.deps.json
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\WebScraperFileDownload.runtimeconfig.json
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\WebScraperFileDownload.pdb
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\Amazon.Lambda.Core.dll
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\Amazon.Lambda.Serialization.SystemTextJson.dll
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\AWSSDK.Core.dll
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\AWSSDK.S3.dll
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\HtmlAgilityPack.dll
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\Newtonsoft.Json.dll
+D:\Development\Lambda-AWS\Serverless\WebScraperFileDownload\src\WebScraperFileDownload\bin\Release\net6.0\publish\WebScraperFileDownload.dll

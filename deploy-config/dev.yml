@@ -1,0 +1,6 @@
+BUILD_BUCKET_NAME: test-webscraped-files-dev
+WebScraper:
+  schedule: cron(0 0 28 * ? *)
+
+WebScraperFileDownload:
+  schedule: cron(0 0 28 * ? *)

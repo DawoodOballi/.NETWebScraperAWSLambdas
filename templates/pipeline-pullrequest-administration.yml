@@ -1,0 +1,77 @@
+trigger:
+- none
+
+pool: default
+
+parameters:
+  - name: lambdas
+    type: string
+    default: all
+    values:
+      - all
+      - WebScraper
+      - WebScraperFileDownload
+
+variables:
+  - name: lambdas
+    ${{ if eq(parameters.lambdas, 'all') }}:
+      value: WebScraper, WebScraperFileDownload
+    ${{ else }}:
+      value: parameters.lambdas
+
+## Job to calculate semantic version
+jobs:
+  - job: CalculateVersion
+    displayName: Semantic versioning
+    
+    steps:
+      # Checkout with persist credentials
+      - checkout: self
+        persistCredentials: true
+
+      - task: npmAuthenticate@0
+        inputs:
+          workingFile: .npmrc
+        displayName: 'Authenticate with NPM'
+
+      - script: |
+          npm ci
+        displayName: 'Install NPM packages'
+        
+      - script: |
+          npm audit --registry=https://registry.npmjs.org/
+        displayName: 'Audit scan NPM packages for vulnerabilities'
+
+      - ${{ each lambda in split(variables.lambdas, ', ') }}:
+        - powershell: |
+            cd ${{ lambda }}/src/${{ lambda }}/
+            dotnet restore
+            cd ../../test/${{ lambda }}.Tests/
+            dotnet restore
+          displayName: 'Restore Dotnet packages for ${{ lambda }}'
+
+      - ${{ each lambda in split(variables.lambdas, ', ') }}:
+        - powershell: |
+            Write-Host "Running 'dotnet build' for ${{lambda}}"
+            npm run dotnet:build -- ${{lambda}}/src/${{ lambda }}/
+
+            Write-Host "Running 'dotnet build' for ${{lambda}} Unit Tests"
+            npm run dotnet:build -- ${{lambda}}/test/${{ lambda }}.Tests/
+          displayName: 'Build Solutions for ${{ lambda }}'
+
+      - ${{ each lambda in split(variables.lambdas, ', ') }}:
+        - powershell: |
+            Write-Host "Running 'dotnet test' for ${{lambda}}"
+            npm run dotnet:test -- ${{lambda}}/test/${{ lambda }}.Tests/
+          displayName: 'Test solutions for ${{ lambda }}'
+
+      - script: |
+          version=`cat package.json | jq -r '.version'`
+          echo "##vso[task.setvariable variable=currentVersion;]$version"
+          echo $(currentVersion)
+        displayName: 'Get current version of function'
+      
+      - script: |
+          git config --global --unset-all http.$(Build.Repository.Uri).extraHeader >> /dev/null 2>&1
+        displayName: Unsetting git credentials
+        condition: failed()

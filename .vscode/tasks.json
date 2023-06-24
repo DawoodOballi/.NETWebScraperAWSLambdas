@@ -1,0 +1,110 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/WebScraper/src/WebScraper/WebScraper.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },  
+        {
+            "label": "test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/WebScraper/test/WebScraper.Tests/WebScraper.Tests.csproj",
+                "/p:CollectCoverage=true",
+                "/p:CoverletOutputFormat=cobertura",
+                "/p:CoverletOutput=${workspaceFolder}/WebScraper/test/WebScraper.Tests/.coverage/coverlet/coverage.cobertura.xml"
+            ],
+            "problemMatcher": "$msCompile",
+        },
+        {
+            "label": "coverage",
+            "type": "shell",
+            "command": "reportgenerator.exe -reports:${workspaceFolder}/WebScraper/test/WebScraper.Tests/.coverage/coverlet/coverage.cobertura.xml -targetdir:${workspaceFolder}/WebScraper/test/WebScraper.Tests/.coverage/html/"
+        },
+        {
+            "label": "test and generate coverage report for webscraper",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "test",
+                "coverage"
+            ]
+        },
+        {
+            "label": "build2",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/WebScraperFileDownload/src/WebScraperFileDownload/WebScraperFileDownload.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test2",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/WebScraperFileDownload/test/WebScraperFileDownload.Tests/WebScraperFileDownload.Tests.csproj",
+                "/p:CollectCoverage=true",
+                "/p:CoverletOutputFormat=cobertura",
+                "/p:CoverletOutput=${workspaceFolder}/WebScraperFileDownload/test/WebScraperFileDownload.Tests/.coverage/coverlet/coverage.cobertura.xml"
+            ],
+            "problemMatcher": "$msCompile",
+        },
+        {
+            "label": "coverage2",
+            "type": "shell",
+            "command": "reportgenerator.exe -reports:${workspaceFolder}/WebScraperFileDownload/test/WebScraperFileDownload.Tests/.coverage/coverlet/coverage.cobertura.xml -targetdir:${workspaceFolder}/WebScraperFileDownload/test/WebScraperFileDownload.Tests/.coverage/html/"
+        },
+        {
+            "label": "test and generate coverage report for webscraperfiledownload",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "test2",
+                "coverage2"
+            ]
+        },
+
+
+
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/WebScraper/test/WebScraper.Tests/WebScraper.Tests.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/WebScraper/test/WebScraper.Tests/WebScraper.Tests.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
